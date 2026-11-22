@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#34294F"/><stop offset="1" stop-color="#171226"/></radialGradient>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#E9B44C" stop-opacity=".22"/><stop offset="1" stop-color="#E9B44C" stop-opacity="0"/></radialGradient>
+  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8DA94"/><stop offset=".55" stop-color="#E9B44C"/><stop offset="1" stop-color="#C58A28"/></linearGradient>
+  <linearGradient id="card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2247"/><stop offset="1" stop-color="#1B1530"/></linearGradient>
+  <mask id="moon"><rect width="1024" height="1024" fill="#fff"/><circle cx="552" cy="366" r="92" fill="#000"/></mask>
+</defs>
+<rect width="1024" height="1024" fill="url(#bg)"/>
+<circle cx="512" cy="512" r="440" fill="url(#halo)"/>
+<g transform="translate(512 512) scale(1.2) translate(-512 -512)">
+  <rect x="312" y="167" width="400" height="690" rx="38" fill="url(#card)" stroke="url(#g)" stroke-width="10"/>
+  <rect x="340" y="195" width="344" height="634" rx="22" fill="none" stroke="#E9B44C" stroke-opacity=".5" stroke-width="3"/>
+  <circle cx="500" cy="392" r="112" fill="url(#g)" mask="url(#moon)"/>
+  <polygon points="512.0,534.0 528.1,611.2 594.0,568.0 550.8,633.9 628.0,650.0 550.8,666.1 594.0,732.0 528.1,688.8 512.0,766.0 495.9,688.8 430.0,732.0 473.2,666.1 396.0,650.0 473.2,633.9 430.0,568.0 495.9,611.2" fill="url(#g)"/>
+  <circle cx="512" cy="650" r="13" fill="#1B1530"/>
+  <polygon points="398.0,268.0 402.2,285.8 420.0,290.0 402.2,294.2 398.0,312.0 393.8,294.2 376.0,290.0 393.8,285.8" fill="#F8DA94"/>
+  <polygon points="632.0,523.0 635.5,536.5 649.0,540.0 635.5,543.5 632.0,557.0 628.5,543.5 615.0,540.0 628.5,536.5" fill="#F8DA94"/>
+  <polygon points="404.0,775.0 406.8,787.2 419.0,790.0 406.8,792.8 404.0,805.0 401.2,792.8 389.0,790.0 401.2,787.2" fill="#F8DA94"/>
+  <circle cx="640" cy="320" r="5" fill="#F8DA94"/>
+  <circle cx="402" cy="520" r="4" fill="#F8DA94"/>
+  <circle cx="610" cy="780" r="4" fill="#F8DA94"/>
+</g></svg>
