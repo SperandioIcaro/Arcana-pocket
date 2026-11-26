@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import AnimatedSplash from './src/components/AnimatedSplash';
 import UpdateNotice from './src/components/UpdateNotice';
+import WhatsNew from './src/components/WhatsNew';
 import HomeScreen from './src/screens/HomeScreen';
 import MenuButton from './src/components/MenuButton';
 import CardsScreen from './src/screens/CardsScreen';
@@ -61,6 +62,8 @@ function Tabs() {
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [whatsNewDone, setWhatsNewDone] = useState(false);
+  const onWhatsNewDone = useCallback(() => setWhatsNewDone(true), []);
   const hideNativeSplash = useCallback(() => { SplashScreen.hideAsync().catch(() => {}); }, []);
   const finish = useCallback(() => setShowSplash(false), []);
 
@@ -88,7 +91,9 @@ export default function App() {
           <Stack.Screen name="SpreadDetail" component={SpreadDetailScreen} options={{ title: 'Tiragem' }} />
         </Stack.Navigator>
       </NavigationContainer>
-      <UpdateNotice />
+      {/* primeiro as novidades da versão instalada; depois o aviso de versão nova */}
+      <WhatsNew onDone={onWhatsNewDone} />
+      {whatsNewDone && <UpdateNotice />}
     </View>
   );
 }
