@@ -7,6 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import AnimatedSplash from './src/components/AnimatedSplash';
+import UpdateNotice from './src/components/UpdateNotice';
+import HomeScreen from './src/screens/HomeScreen';
+import MenuButton from './src/components/MenuButton';
 import CardsScreen from './src/screens/CardsScreen';
 import CardDetailScreen from './src/screens/CardDetailScreen';
 import SpreadsScreen from './src/screens/SpreadsScreen';
@@ -37,6 +40,7 @@ function Tabs() {
       screenOptions={{
         headerStyle: { backgroundColor: colors.surface },
         headerTintColor: colors.text,
+        headerLeft: () => <MenuButton />,
         tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
         tabBarActiveTintColor: colors.saffron,
         tabBarInactiveTintColor: colors.muted,
@@ -44,13 +48,13 @@ function Tabs() {
     >
       <Tab.Screen name="Cartas" component={CardsScreen} options={{ tabBarIcon: icon('albums-outline') }} />
       <Tab.Screen name="Tiragens" component={SpreadsScreen} options={{ tabBarIcon: icon('grid-outline') }} />
-      <Tab.Screen name="Qual usar?" component={QuizScreen} options={{ tabBarIcon: icon('compass-outline') }} />
+      <Tab.Screen name="Quiz" component={QuizScreen} options={{ tabBarIcon: icon('compass-outline') }} />
       <Tab.Screen
         name="Pessoal"
         component={PersonalArcanaScreen}
         options={{ tabBarIcon: icon('person-circle-outline'), headerTitle: 'Arcanos pessoais' }}
       />
-      <Tab.Screen name="Básico" component={BasicsScreen} options={{ tabBarIcon: icon('book-outline') }} />
+      <Tab.Screen name="Guia" component={BasicsScreen} options={{ tabBarIcon: icon('book-outline') }} />
     </Tab.Navigator>
   );
 }
@@ -75,13 +79,16 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <StatusBar style="light" />
         <Stack.Navigator
+          initialRouteName="Home"
           screenOptions={{ headerStyle: { backgroundColor: colors.surface }, headerTintColor: colors.text }}
         >
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
           <Stack.Screen name="CardDetail" component={CardDetailScreen} options={{ title: 'Carta' }} />
           <Stack.Screen name="SpreadDetail" component={SpreadDetailScreen} options={{ title: 'Tiragem' }} />
         </Stack.Navigator>
       </NavigationContainer>
+      <UpdateNotice />
     </View>
   );
 }

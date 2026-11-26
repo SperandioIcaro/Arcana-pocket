@@ -1,8 +1,10 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { LayoutAnimation, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import CardImage from '../components/CardImage';
+import Constellation, { THEMES } from '../components/Constellation';
 import { ARCANO_LABEL, getCard } from '../data/cards';
+import { MAJOR_DEPTH, ThemeId } from '../data/majorDepth';
 import { colors, radius } from '../theme';
 import { RootStackParamList } from '../types';
 
@@ -11,6 +13,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CardDetail'>;
 export default function CardDetailScreen({ route, navigation }: Props) {
   const card = getCard(route.params.cardId);
   const [reversed, setReversed] = useState(false);
+  const [theme, setTheme] = useState<ThemeId>('geral');
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: card?.name ?? 'Carta' });
@@ -18,6 +21,18 @@ export default function CardDetailScreen({ route, navigation }: Props) {
 
   if (!card) return <View style={styles.container}><Text style={styles.body}>Carta não encontrada.</Text></View>;
   const side = reversed ? card.reversed : card.upright;
+  const depth = MAJOR_DEPTH[card.id]; // só os Arcanos Maiores têm aprofundamento por enquanto
+  const key = reversed ? 'i' : 'n';
+  const themeLabel = THEMES.find((t) => t.id === theme)?.label ?? '';
+  const themeText = depth
+    ? theme === 'simbolos'
+      ? depth.simbolos
+      : depth[theme][key]
+    : '';
+  const selectTheme = (id: ThemeId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setTheme(id);
+  };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20, alignItems: 'center' }}>
@@ -37,9 +52,23 @@ export default function CardDetailScreen({ route, navigation }: Props) {
         {side.keywords.map((k) => (
           <View key={k} style={styles.chip}><Text style={styles.chipText}>{k}</Text></View>
         ))}
+        {depth?.extra[key].map((k) => (
+          <View key={k} style={[styles.chip, styles.chipExtra]}><Text style={styles.chipExtraText}>{k}</Text></View>
+        ))}
       </View>
 
       <Text style={styles.body}>{side.meaning}</Text>
+
+      {depth && (
+        <>
+          <Text style={styles.hint}>Toque numa estrela para ver a carta por outro ângulo</Text>
+          <Constellation selected={theme} onSelect={selectTheme} />
+          <View style={styles.themeCard}>
+            <Text style={styles.themeTitle}>{themeLabel}</Text>
+            <Text style={styles.themeText}>{themeText}</Text>
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 }
@@ -58,4 +87,10 @@ const styles = StyleSheet.create({
   chip: { backgroundColor: colors.surface2, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 999, borderWidth: 1, borderColor: colors.border },
   chipText: { color: colors.rose },
   body: { color: colors.text, fontSize: 16, lineHeight: 25, marginTop: 20, alignSelf: 'stretch' },
+  chipExtra: { backgroundColor: 'transparent' },
+  chipExtraText: { color: colors.muted },
+  hint: { color: colors.muted, fontSize: 13, marginTop: 28, textAlign: 'center' },
+  themeCard: { alignSelf: 'stretch', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: 18, marginTop: 8, marginBottom: 28 },
+  themeTitle: { color: colors.saffron, fontSize: 13, fontWeight: '700', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 8 },
+  themeText: { color: colors.text, fontSize: 15.5, lineHeight: 24 },
 });

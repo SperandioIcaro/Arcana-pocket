@@ -38,8 +38,11 @@ export interface Spread {
   positions: SpreadPosition[];
 }
 
+export type TabName = 'Cartas' | 'Tiragens' | 'Quiz' | 'Pessoal' | 'Guia';
+
 export type RootStackParamList = {
-  Tabs: undefined;
+  Home: undefined;
+  Tabs: { screen?: TabName } | undefined;
   CardDetail: { cardId: string };
   SpreadDetail: { spreadId: string };
 };
